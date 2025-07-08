@@ -187,7 +187,7 @@ With your text editor, create a new file called ``turtle_tf2_fixed_frame_demo_la
 .. literalinclude:: launch/turtle_tf2_fixed_frame_demo_launch.py
     :language: python
 
-This launch file imports the required packages and then creates a ``demo_nodes`` variable that will store nodes that we created in the previous tutorial's launch file.
+This launch file imports the required packages.
 
 The last part of the code will add our fixed ``carrot1`` frame to the turtlesim world using our ``fixed_frame_tf2_broadcaster`` node.
 
@@ -298,10 +298,13 @@ To do so, open the ``turtle_tf2_fixed_frame_demo_launch.py`` file, and add the `
 .. code-block:: python
 
     def generate_launch_description():
-        demo_nodes = IncludeLaunchDescription(
-            ...,
-            launch_arguments={'target_frame': 'carrot1'}.items(),
-            )
+        return LaunchDescription([
+            IncludeLaunchDescription(
+                PathJoinSubstitution([FindPackageShare('learning_tf2_cpp'), 'launch', 'turtle_tf2_demo_launch.py']),
+                launch_arguments={'target_frame': 'carrot1'}.items()
+            ),
+            ...
+        ])
 
 Now rebuild the package, restart the ``turtle_tf2_fixed_frame_demo_launch.py``, and you'll see the second turtle following the carrot instead of the first turtle!
 
